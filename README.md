@@ -1,43 +1,47 @@
 # TeleGuard
 
-An anti-spam and moderation bot for Telegram groups: it stops join bots with a CAPTCHA, scores new
-members for risk, and filters flooding and spam — so admins don't have to babysit the group.
+A moderation bot for Telegram groups. It blocks join bots with a CAPTCHA, gives every new member a quick
+risk check, and keeps flooding and spam out, so you don't have to sit and watch the group all day.
 
-![Example of the messages the bot sends](docs/example-messages.png)
+![What the bot posts in a group](docs/example-messages.png)
 
-*Example of the messages the bot posts in a group.*
+*An example of the messages the bot sends.*
 
 ## What it does
 
-**On join** — new members are muted until they pass a quick CAPTCHA (bots almost never do). Before that,
-each member gets a **risk score** from their profile, and risky ones get a harder challenge:
+When someone joins, the bot mutes them until they answer a small CAPTCHA. A real person taps it in a
+second, a bot almost never does. Before showing the challenge it also takes a look at the account and
+gives it a risk score, and if something seems off the challenge gets harder. What it looks at:
 
-- no profile photo, no username
-- links, @handles or spam keywords in the name
-- mixed scripts (e.g. Cyrillic letters faking Latin ones)
-- the account's **datacenter** (DC1–DC5), derived from the profile photo — a weak, optional hint
+* no profile photo, or no username
+* links, @handles or spam words in the name
+* mixed alphabets, for example Cyrillic letters dressed up as Latin ones
+* which datacenter (DC1 to DC5) the account sits in, read from the profile photo. This one is only a weak
+  hint, so it's off by default.
 
-![New-member risk score](docs/risk-scores.png)
+![New member risk score](docs/risk-scores.png)
 
-**On every message** — an anti-flood limit and a spam filter (links or forwarded channel posts from new
-users, spam phrases, mass mentions). Offenders are deleted and warned; enough warnings = a ban.
+On normal messages it runs an anti flood limit and a spam check: links or forwarded channel posts from
+brand new users, known spam phrases, walls of mentions. Anything it catches gets deleted and the user
+picks up a warning. Enough warnings and they're out.
 
 ![How it works](docs/pipeline.svg)
 
-**Admin commands** (reply to a message): `/ban`, `/mute`, `/warn`.
+Admins can also reply to a message with `/ban`, `/mute` or `/warn`.
 
 ## Setup
 
-Requires Python 3.10+.
+You need Python 3.10 or newer.
 
 ```bash
 pip install -r requirements.txt
 cp .env.example .env      # then fill it in
 ```
 
-1. Create a bot with [@BotFather](https://t.me/BotFather) → `TELEGRAM_BOT_TOKEN`.
-2. Add it to your group **as an admin** with *ban users*, *delete messages* and *restrict members*.
-3. Disable BotFather's *Group Privacy* so it can read messages.
+1. Create a bot with [@BotFather](https://t.me/BotFather) and copy the token into `TELEGRAM_BOT_TOKEN`.
+2. Add the bot to your group as an admin, with the rights to ban users, delete messages and restrict
+   members.
+3. Turn off Group Privacy in BotFather, otherwise it can't read messages.
 
 ```bash
 python -m teleguard
@@ -45,14 +49,14 @@ python -m teleguard
 
 ## Configuration
 
-| Variable | Default | Description |
+| Variable | Default | What it does |
 |---|---|---|
-| `TELEGRAM_BOT_TOKEN` | – | Bot token |
+| `TELEGRAM_BOT_TOKEN` | (none) | Bot token |
 | `CAPTCHA_TIMEOUT` | `60` | Seconds to solve the join challenge |
 | `FLOOD_MAX` / `FLOOD_SECONDS` | `5` / `5` | Messages per window before a mute |
 | `WARN_LIMIT` | `3` | Warnings before an automatic ban |
 | `RISK_THRESHOLD` | `4` | Risk score treated as suspicious |
-| `SUSPICIOUS_DATACENTERS` | – | DCs to flag, e.g. `4 5` (weak signal, off by default) |
+| `SUSPICIOUS_DATACENTERS` | (none) | DCs to flag, e.g. `4 5`. Weak signal, off by default. |
 
 ## Tests
 
@@ -61,12 +65,12 @@ pip install pytest
 pytest
 ```
 
-The moderation logic (risk, spam, anti-flood, datacenter decoding) is pure and unit-tested; the charts
-above are generated from that same code.
+The moderation logic (risk, spam, anti flood, datacenter decoding) is plain Python and has unit tests.
+The two charts above come from that same code.
 
-## Tech stack
+## Built with
 
-Python · python-telegram-bot · asyncio
+Python and python-telegram-bot.
 
 ## License
 
