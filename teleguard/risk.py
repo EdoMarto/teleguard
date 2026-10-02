@@ -36,7 +36,7 @@ class RiskConfig:
 
 
 def _has_mixed_scripts(text: str) -> bool:
-    """True if the name mixes e.g. Latin and Cyrillic — a common spoofing trick."""
+    """True if the name mixes e.g. Latin and Cyrillic, a common spoofing trick."""
     scripts = set()
     for ch in text:
         if ch.isalpha():

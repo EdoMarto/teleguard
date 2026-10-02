@@ -5,8 +5,8 @@ encoded inside the file_id of any file they own (such as a profile photo). The
 file_id is a URL-safe base64 string, zero-run-length encoded; once decoded, the
 second little-endian int32 is the datacenter id (1..5).
 
-This is a weak signal — the datacenter only reflects where the account was
-registered, not whether it is a bot — so use it as a low-weight hint, never as a
+This is a weak signal, the datacenter only reflects where the account was
+registered, not whether it is a bot, so use it as a low-weight hint, never as a
 reason to ban on its own.
 """
 
