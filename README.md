@@ -1,5 +1,10 @@
 # TeleGuard
 
+![Python](https://img.shields.io/badge/python-3.10+-blue)
+![python-telegram-bot](https://img.shields.io/badge/python--telegram--bot-21-26A5E4)
+![Last commit](https://img.shields.io/github/last-commit/EdoMarto/teleguard)
+![Stars](https://img.shields.io/github/stars/EdoMarto/teleguard)
+
 A moderation bot for Telegram groups. It blocks join bots with a CAPTCHA, gives every new member a quick
 risk check, and keeps flooding and spam out, so you don't have to sit and watch the group all day.
 
