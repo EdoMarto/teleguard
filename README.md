@@ -75,7 +75,7 @@ The two charts above come from that same code.
 
 ## Built with
 
-Python and python-telegram-bot.
+Python and the library python-telegram-bot.
 
 ## License
 
